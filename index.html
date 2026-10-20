@@ -84,6 +84,7 @@ ul.plain li{margin-bottom:6px}
 .box.warn{background:var(--warn-soft);border-color:transparent}
 .box.ok{background:var(--green-soft);border-color:transparent}
 .box .h{display:block;font-weight:700;margin-bottom:4px}
+.tag{display:inline-block;background:var(--blue);color:var(--canvas);border-radius:var(--r-pill);padding:0 10px;font-size:0.85rem;margin-right:6px;vertical-align:2px}
 .box p:last-child,.box ul:last-child{margin-bottom:0}
 
 .path{margin:10px 0 18px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--pearl);padding:12px}
@@ -151,9 +152,9 @@ function path(text){
     '<button class="copy" type="button" data-copy="' + text + '">복사</button>' +
     '<span class="copy-msg" role="status"></span></div>';
 }
-var PHONE_RULE = '<div class="box key"><span class="h">비밀번호는 전화로만 주고받습니다</span>' +
-  '<p>압축파일은 카카오톡이나 이메일로 보내고, 비밀번호는 <b>꼭 전화 통화로만</b> 알려 드립니다. 파일과 비밀번호가 한 메시지 창에 같이 있으면, 그 메시지가 다른 사람 손에 들어갔을 때 인증서를 바로 쓸 수 있게 되기 때문입니다.</p></div>';
-var OWNER_RULE = '<div class="box"><p>이 안내는 <b>인증서 주인(명의자) 본인이 직접 쓰시기 위해</b> 인증서를 옮기는 방법입니다.</p></div>';
+var PHONE_RULE = '<div class="box key"><span class="h"><span class="tag">추천</span> 비밀번호는 전화로 알려 주세요</span>' +
+  '<p>압축파일은 카카오톡이나 이메일로, 비밀번호는 <b>전화 통화로</b> 따로 전하시는 것을 추천합니다. 파일과 비밀번호가 한 메시지 창에 같이 있으면, 그 메시지가 다른 사람 손에 들어갔을 때 인증서를 바로 쓸 수 있게 되기 때문입니다.</p></div>';
+var OWNER_NOTE = ' 인증서 주인(명의자) 본인이 직접 쓰시기 위해 옮기는 방법입니다.';
 var MENU_NOTE = '<div class="box"><span class="h">화면 글자가 조금 달라도 괜찮습니다</span>' +
   '<p>반디집은 버전마다 메뉴 이름이 조금씩 다릅니다. 이 안내와 글자가 똑같지 않으면, <b>뜻이 같은 메뉴</b>를 골라 주세요. 아래에 자주 보이는 다른 이름도 함께 적어 두었습니다.</p></div>';
 var BANDI_INSTALL =
@@ -183,7 +184,7 @@ send: {
   name:'한국에서 보내시는 분',
   steps:[
   {t:'준비 확인', h:function(){return '' +
-    '<p class="lead">한국 컴퓨터에 있는 공동인증서를 미국 가족 컴퓨터로 옮기는 안내입니다. 처음 하셔도 <b>20분 정도</b>면 충분합니다.</p>' +
+    '<p class="lead">한국 컴퓨터에 있는 공동인증서를 미국 가족 컴퓨터로 옮기는 안내입니다. 처음 하셔도 <b>20분 정도</b>면 충분합니다.' + OWNER_NOTE + '</p>' +
     '<p>시작하시기 전에 아래 다섯 가지를 확인해 주세요. 눌러서 표시하실 수 있습니다.</p>' +
     checks('send', [
       '<b>인증서 비밀번호</b>를 알고 있습니다. (은행 사이트에 로그인할 때 쓰시는 그 비밀번호입니다)',
@@ -191,7 +192,7 @@ send: {
       '미국 가족과 <b>전화 통화</b>를 할 수 있습니다.',
       '양쪽이 동시에 컴퓨터 앞에 있을 <b>시간을 약속</b>했습니다. (한국과 미국은 시차가 있습니다)',
       '<b>20분 정도</b> 여유가 있습니다.'
-    ]) + OWNER_RULE + PHONE_RULE +
+    ]) +
     '<p class="muted">창을 닫았다가 다시 여셔도 보시던 단계부터 이어집니다.</p>';}},
   {t:'반디집 설치', h:function(){return '' +
     '<p class="lead">비밀번호를 걸어 압축하려면 <b>반디집</b>이라는 무료 압축 프로그램이 필요합니다. 윈도우에 원래 있는 압축 기능으로는 비밀번호를 걸 수 없습니다.</p>' +
@@ -267,12 +268,12 @@ recv: {
   name:'미국에서 받으시는 가족',
   steps:[
   {t:'파일 받기', h:function(){return '' +
-    '<p class="lead">한국에서 보내 주신 인증서 압축파일을 이 컴퓨터에 넣는 안내입니다. <b>20분 정도</b>면 충분합니다.</p>' +
+    '<p class="lead">한국에서 보내 주신 인증서 압축파일을 이 컴퓨터에 넣는 안내입니다. <b>20분 정도</b>면 충분합니다.' + OWNER_NOTE + '</p>' +
     checks('recv', [
       '이 컴퓨터가 <b>윈도우 컴퓨터</b>입니다. (애플 맥 컴퓨터라면 순서가 다르니, 도와주시는 분께 먼저 말씀해 주세요)',
       '한국에서 <b>압축파일</b>(예: <code class="k">yessign.zip</code>)을 카카오톡이나 이메일로 받았습니다.',
       '<b>전화로</b> 압축 비밀번호와 인증서 비밀번호를 들었습니다. (아직이면 지금 전화로 받아 적어 두세요)'
-    ]) + PHONE_RULE + OWNER_RULE +
+    ]) + PHONE_RULE +
     '<h3>압축파일을 바탕화면에 저장하기</h3>' +
     '<ol class="steps">' +
     '<li>카카오톡이나 이메일로 받으신 압축파일을 여세요.</li>' +
@@ -368,7 +369,7 @@ function render(focus){
       '<div class="choices">' +
       '<button class="choice" type="button" data-go="send"><span class="t">한국에서 보내시는 분</span><span class="d">인증서를 비밀번호 걸어 압축하고, 가족에게 보내는 순서입니다. (7단계)</span>' + resumeText('send') + '</button>' +
       '<button class="choice" type="button" data-go="recv"><span class="t">미국에서 받으시는 가족</span><span class="d">받은 파일을 풀어 넣고, 로그인까지 확인하는 순서입니다. (6단계)</span>' + resumeText('recv') + '</button>' +
-      '</div>' + PHONE_RULE + OWNER_RULE +
+      '</div>' +
       '<footer>이 페이지는 아무것도 서버에 저장하지 않습니다. 보시던 단계만 이 기기에 기억합니다.</footer>';
     if (focus) view.querySelector('h1').setAttribute('tabindex','-1'), view.querySelector('h1').focus();
     return;
