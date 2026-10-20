@@ -43,7 +43,8 @@ button{font:inherit;color:inherit}
 .wrap{max-width:720px;margin:0 auto;padding:0 16px}
 header.top{position:sticky;top:0;z-index:5;background:var(--canvas);border-bottom:1px solid var(--hairline)}
 header.top .wrap{display:flex;align-items:center;gap:12px;min-height:60px}
-.brand{font-weight:700;font-size:1.05rem;flex:1}
+.brand{font-weight:700;font-size:1.05rem;flex:1;min-width:0}
+.home-btn{white-space:nowrap}
 .home-btn{border:1px solid var(--border);background:var(--pearl);border-radius:var(--r-pill);padding:6px 14px;font-size:0.95rem;cursor:pointer;min-height:40px}
 .home-btn[hidden]{display:none}
 main{padding:28px 0 140px}
@@ -125,10 +126,12 @@ footer{color:var(--muted);font-size:0.95rem;margin-top:36px}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
 @media print{header.top,nav.pager{display:none}main{padding:0}}
 </style>
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('cert-move:theme')==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}</script>
 </head>
 <body>
 <header class="top"><div class="wrap">
   <span class="brand">공동인증서 옮기기</span>
+  <button class="home-btn" id="themeBtn" type="button" aria-pressed="false">어두운 화면</button>
   <button class="home-btn" id="homeBtn" type="button" hidden>처음 화면</button>
 </div></header>
 
@@ -423,6 +426,15 @@ nextBtn.addEventListener('click', function(){
   if (st.step[st.flow] < total - 1) st.step[st.flow]++; else st.flow = null;
   save(); render(true);
 });
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  themeBtn.textContent = t === 'dark' ? '밝은 화면' : '어두운 화면';
+  themeBtn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+  try { localStorage.setItem('cert-move:theme', t); } catch(e) {}
+}
+var themeBtn = document.getElementById('themeBtn');
+setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+themeBtn.addEventListener('click', function(){ setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); });
 render(false);
 })();
 </script>
